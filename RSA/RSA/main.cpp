@@ -1,5 +1,6 @@
 #include <iostream>
 #include "fileIO.h"
+#include "rsa.h"
 
 using namespace std;
 
