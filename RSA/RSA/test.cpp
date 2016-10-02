@@ -50,5 +50,4 @@ BOOST_AUTO_TEST_CASE(RSA)
   BOOST_CHECK_EQUAL(modularInverse(42, 2017), 1969);
   BOOST_CHECK_EQUAL(modularInverse(29, 5200), 2869);
   BOOST_CHECK_THROW(modularInverse(4, 8), Exception);
-  
 }
