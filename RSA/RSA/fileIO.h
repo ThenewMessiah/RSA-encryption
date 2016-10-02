@@ -3,16 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include "exception.h"
 
 using namespace std;
-
-struct Exception : public std::exception
-{
-	std::string s;
-	Exception(string ss) : s(ss) {}
-	~Exception() throw () {} // Updated
-	const char* message() const throw() { return s.c_str(); }
-};
 
 string getMessageFromFile(string fileName);
 void writeMessageToFile(string message, string fileName);
