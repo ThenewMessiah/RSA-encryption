@@ -1,5 +1,7 @@
 ﻿#include <iostream>
 #include <math.h>
+#include <cstring>
+#include <cstdlib>
 #include "exception.h"
 #include "rsa.h"
 
@@ -13,7 +15,7 @@ int getPrimeNum(int numOfDigits)
 	if(numOfDigits > 4)
 		throw Exception("Number of Digits is too large!");
 
-	int primeNum = 0, primeCount = 0, range = abs(int(pow(10.0, double(numOfDigits))) + 1);
+	int primeNum = 0, primeCount = 0, range = int(pow(10.0, double(numOfDigits))) + 1;
 	int arr[range];
 	memset(arr, 0, range * sizeof(int));
 	int primeArr[range];

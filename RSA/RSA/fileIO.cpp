@@ -3,7 +3,7 @@
 string getMessageFromFile(string fileName)
 {
 	ifstream file;
-	file.open(fileName, fstream::in);
+	file.open(fileName.c_str(), fstream::in);
 
 	if (file.is_open())
 	{
@@ -23,14 +23,14 @@ string getMessageFromFile(string fileName)
 void writeMessageToFile(string message, string fileName)
 {
 	ofstream file;
-	file.open(fileName, fstream::out);
+	file.open(fileName.c_str(), fstream::out);
 
 	if (file.is_open())
 	{
 		char tempChar;
 		const int size = message.length() * 2;
 		char* arr = new char[size];
-		strcpy(arr, message.c_str());
+		std::strcpy(arr, message.c_str());
 		file.write(arr, message.size());
 		delete[] arr;
 		return;
