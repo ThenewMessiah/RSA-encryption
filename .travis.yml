@@ -9,8 +9,7 @@ before_script:
 
 # Build steps
 script:
-  - cd RSA
-  - cd RSA
+  - cd RSA/RSA
   - make test
-  - ./test_RSA
+  - ./testSuites --log_level=test_suite
   
