@@ -11,6 +11,8 @@
 #define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
 
+BOOST_AUTO_TEST_SUITE(RSA)
+
 BOOST_AUTO_TEST_CASE(Exceptions)
 {
   string message = "Test Exception";
@@ -18,7 +20,7 @@ BOOST_AUTO_TEST_CASE(Exceptions)
   BOOST_REQUIRE(e.message() == message);
 }
 
-BOOST_AUTO_TEST_CASE(RSA)
+BOOST_AUTO_TEST_CASE(ModularMath)
 {
   BOOST_CHECK_THROW(getPrimeNum(0), Exception);
   BOOST_CHECK_THROW(getPrimeNum(5), Exception);
@@ -52,3 +54,14 @@ BOOST_AUTO_TEST_CASE(RSA)
   BOOST_CHECK_THROW(modularInverse(4, 8), Exception);
   
 }
+
+BOOST_AUTO_TEST_CASE(RSA_Key)
+{
+  Key testKeyDefault;
+  Key testKeyCustomGood(2869, 5353, 101, 53, 29);
+  BOOST_CHECK_THROW(Key testKeyCustomBadFactors(1111, 2500, 750, 55, 13), Exception);
+
+  BOOST_CHECK_EQUAL(testKeyDefault.getPublicBase(), testKeyDefault.getFactor1() * testKeyDefault.getFactor2());
+}
+
+BOOST_AUTO_TEST_SUITE_END()
