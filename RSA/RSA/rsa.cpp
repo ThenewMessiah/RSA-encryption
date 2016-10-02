@@ -95,7 +95,7 @@ Key::Key()
 	// factor1 == p
 	_factor1 = getPrimeNum(3);
 	// factor2 == q
-	_factor2 = getPrimeNum(3);
+	_factor2 = getPrimeNum(2);
 	// base = (p * q)
 	_publicBase = _factor1 * _factor2;
 	// e = number relatively prime to (p-1)(q-1)
@@ -106,6 +106,8 @@ Key::Key()
 
 Key::Key(int privateKey, int baseNum, int factor1, int factor2, int exp)
 {
+	if(factor1 * factor2 != baseNum)
+		throw Exception("Cannot construct Key: Factors 1 and/or 2 are not factors of Base number!");
 	_privateKey = privateKey;
 	_publicBase = baseNum;
 	_factor1 = factor1;
