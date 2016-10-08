@@ -1,6 +1,7 @@
 ﻿#ifndef RSA_H
 #define SIERPINSKI_H
 
+int getRandomNumber(int min, int max);
 int getPrimeNum(int numOfDigits);
 int gcd(int m, int n);
 bool checkRelativelyPrime(int num1, int num2);

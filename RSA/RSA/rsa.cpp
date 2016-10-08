@@ -2,10 +2,20 @@
 #include <math.h>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 #include "exception.h"
 #include "rsa.h"
 
 using namespace std;
+
+int getRandomNumber(int min, int max)
+{
+	if(min == max)
+		throw Exception("Min and Max values cannot be the same!");
+	else if(min == 0 || max == 0)
+		throw Exception("Min and/or Max values cannot be 0!");
+	else return min + (rand() % (max - min + 1));
+}
 
 // Program to implement Sieve of Eratosthenes
 int getPrimeNum(int numOfDigits)
@@ -18,8 +28,7 @@ int getPrimeNum(int numOfDigits)
 	int primeNum = 0, primeCount = 0, range = int(pow(10.0, double(numOfDigits))) + 1;
 	int arr[range];
 	memset(arr, 0, range * sizeof(int));
-	int primeArr[range];
-	memset(primeArr, 0, range * sizeof(int));
+	vector<int> primeVtr;
 
 	for (int i = 2; i < range; i++)
 	{
@@ -31,7 +40,7 @@ int getPrimeNum(int numOfDigits)
 	for (int i = 1; i < range; i++)
 	{
 		if (arr[i - 1] == 0) {
-			primeArr[primeCount] = i;
+			primeVtr.push_back(i);
 			primeCount++;
 		}
 	}
@@ -39,7 +48,7 @@ int getPrimeNum(int numOfDigits)
 	{
 		// get random index from 1 - number of primes in range
 		int randIndex = rand() % (primeCount - 1);
-		primeNum = primeArr[randIndex];
+		primeNum = primeVtr.at(randIndex);
 	}while (primeNum < range/10 || primeNum > range);
 	// keep getting a new number until primeNum is the correct number of digits
 	return primeNum;
