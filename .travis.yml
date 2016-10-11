@@ -3,13 +3,21 @@ language: cpp
 os:
   -linux
 
-before_script:
+compiler:
+  - clang
+  - gcc
+
+install:
 - sudo apt-get update -qq
 - sudo apt-get install libboost-thread-dev libboost-system-dev libboost-test-dev
 
+before_script:
+- mkdir build
+- cp src build && cd build
+
 script:
-- cd RSA/RSA
 - make test
+- make
 - "./testSuites --log_level=test_suite"
 
 notifications:
