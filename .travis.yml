@@ -4,12 +4,14 @@ os:
   -linux
 
 before_script:
-  - sudo apt-get update -qq
-  - sudo apt-get install libboost-thread-dev libboost-system-dev libboost-test-dev
+- sudo apt-get update -qq
+- sudo apt-get install libboost-thread-dev libboost-system-dev libboost-test-dev
 
-# Build steps
 script:
-  - cd RSA/RSA
-  - make test
-  - ./testSuites --log_level=test_suite
-  
+- cd RSA/RSA
+- make test
+- "./testSuites --log_level=test_suite"
+
+notifications:
+  slack:
+    secure: S67EgTXPnRbrsl/s9v5XEgq0i9d7a7KqkcTIRUS2Wm/YAnLReiLmc25O04VzqFfYNt06bC/Gtnz9IWsJ29zAO0fAP7n+Ce5T1XceJcsxCsi56g1tU3ql/06LPWgVm1+nUC4mRrbTPd3zzNddxqDwHk7DXOL+sI7t9xZ1io4PZD3+oyvMfis3SIV9phtjeH1yP9YlQZ/b4hHoM9Uwmtqa+SmqpajXEttYjkLqBMNeIODcvLdK33kvlbGhVefE4nq6OeBT1bXt9mMe+vXAn/Ip5IMyBm9f16FpRTfmmIG/+JK7vHr4ax7h11KNOirYij7V0ywuWr226q/fBQ3+lxsXiwp7rX5w4zAspRfdFdXUEQ3iVjY7K5uLz8zuchNNRr6BLno4DkSO4VTetrKWL/R9ii6AasFrW2e7/paKEpQ2b/vzHyDOlaL6uORJOkzJYJpAwUhGqhbErsU2SGHrbn2yCx12pD+kL1iJALK4MZn2CICkKphH6HoDEpSd2/ZYBpL+PAMev7ov9S6w3+BOUgvGbNQSK2CvLWJFSWIds6Py/4RXS/PtHbyWNBbB1gcCVvcALya8pgxzwPsp74L5U5+633jimJEt77N51kASYbpmxDEdXq4HSkjN8UqoR6gg0cB+NcXBj3Jzu8QXddAdKypTwvoGgkpT0rhf4wzqKJlVQ64=
