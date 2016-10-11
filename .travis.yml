@@ -7,25 +7,21 @@ compiler:
   - clang
   - gcc
 
-install:
+before_install:
+- sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
 - sudo apt-get update -qq
+
+install:
 - sudo apt-get install libboost-thread-dev libboost-system-dev libboost-test-dev
+- sudo apt-get install -qq g++-4.8
 - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+- $CXX --version
 
 script:
 - cd src
 - make
 - make test
 - "./testSuites --log_level=test_suite"
-
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-4.8
-    - g++-4.8
-    - clang
 
 notifications:
   slack:
