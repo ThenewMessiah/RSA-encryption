@@ -69,6 +69,10 @@ BOOST_AUTO_TEST_CASE(ModularMath)
   BOOST_CHECK_EQUAL(checkRelativelyPrime(8, 4), false);
   BOOST_CHECK_EQUAL(checkRelativelyPrime(getPrimeNum(2), getPrimeNum(3)), true);
 
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(0), 33);
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(93), 33);
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(8127), 69);
+
   Key key(2869, 5353, 101, 53, 29);
 
   BOOST_CHECK_EQUAL(modValue(5, 1, 4), 1);

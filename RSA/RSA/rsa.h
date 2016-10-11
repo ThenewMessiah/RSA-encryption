@@ -1,6 +1,14 @@
 ﻿#ifndef RSA_H
-#define SIERPINSKI_H
+#define RSA_H
 
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+void encryptRSA(string inputFile, string outputFile);
+void decryptRSA(string inputFile, string outputFile, string keyFile);
+int getASCIImoddedValue(int asciiVal);
 int getRandomNumber(int min, int max);
 int getPrimeNum(int numOfDigits);
 int gcd(int m, int n);

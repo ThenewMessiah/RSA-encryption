@@ -4,9 +4,43 @@
 #include <cstdlib>
 #include <vector>
 #include "exception.h"
+#include "fileIO.h"
 #include "rsa.h"
 
+#define MAX_ASCII_VAL 93
+#define MIN_ASCII_VAL 33
+
 using namespace std;
+
+void encryptRSA(string inputFile, string outputFile)
+{
+	if(inputFile == outputFile)
+		throw Exception("Input and Output files cannot be the same!");
+
+	string originalMessage = getMessageFromFile(inputFile);
+	string newMessage = "";
+	Key key;
+	string keyFile = writeKey(key);
+
+	for(int i = 0; i < originalMessage.length(); i++)
+	{
+		int ascii = (int) originalMessage.at(i);
+		int encryptVal = modValue(ascii, key.getPublicExp(), key.getPublicBase());
+		newMessage.append(to_string(encryptVal));
+		newMessage.append(" ");
+	}
+	writeMessageToFile(newMessage, outputFile);
+}
+
+void decryptRSA(string inputFile, string outputFile, string keyFile)
+{
+
+}
+
+int getASCIImoddedValue(int asciiVal)
+{
+	return (asciiVal % MAX_ASCII_VAL) + MIN_ASCII_VAL;
+}
 
 int getRandomNumber(int min, int max)
 {
