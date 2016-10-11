@@ -5,6 +5,7 @@ int getRandomNumber(int min, int max);
 int getPrimeNum(int numOfDigits);
 int gcd(int m, int n);
 bool checkRelativelyPrime(int num1, int num2);
+int modValue(int base, int exp, int mod);
 int modularInverse(int a, int b);
 
 class Key

@@ -69,6 +69,18 @@ BOOST_AUTO_TEST_CASE(ModularMath)
   BOOST_CHECK_EQUAL(checkRelativelyPrime(8, 4), false);
   BOOST_CHECK_EQUAL(checkRelativelyPrime(getPrimeNum(2), getPrimeNum(3)), true);
 
+  Key key(2869, 5353, 101, 53, 29);
+
+  BOOST_CHECK_EQUAL(modValue(5, 1, 4), 1);
+  BOOST_CHECK_EQUAL(modValue(8, 1, 8), 0);
+  BOOST_CHECK_EQUAL(modValue(7, 0, 100), 1);
+  BOOST_CHECK_EQUAL(modValue(65, 29, 5353), 4155);
+  BOOST_CHECK_EQUAL(modValue(1200, 50, 95), 80);
+  BOOST_CHECK_EQUAL(modValue(1907, key.getPublicExp(), key.getPublicBase()), 4451);
+  BOOST_CHECK_THROW(modValue(-10, 50, 95), Exception);
+  BOOST_CHECK_THROW(modValue(10, -50, 95), Exception);
+  BOOST_CHECK_THROW(modValue(10, 50, -95), Exception);
+
   BOOST_CHECK_EQUAL(modularInverse(42, 2017), 1969);
   BOOST_CHECK_EQUAL(modularInverse(29, 5200), 2869);
   BOOST_CHECK_THROW(modularInverse(4, 8), Exception);

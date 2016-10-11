@@ -83,6 +83,29 @@ bool checkRelativelyPrime(int num1, int num2)
 	else return false;
 }
 
+int modValue(int base, int exp, int mod)
+{
+	if(base < 0 || exp < 0 || mod < 0)
+		throw Exception("Cannot calculate mod value with a negative value!");
+
+	int res = 1;
+
+	base = base % mod;  // Update base if it is more than or
+	// equal to mod value (in mod math)
+
+	while (exp > 0)
+	{
+		// If exp is odd, multiply base with result
+		if (exp & 1)
+			res = (res * base) % mod;
+
+		// exp must be even now
+		exp /= 2;
+		base = (base * base) % mod;
+	}
+	return res;
+}
+
 int modularInverse(int num, int mod)
 {
 	if(!checkRelativelyPrime(num, mod))
