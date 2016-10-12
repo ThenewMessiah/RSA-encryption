@@ -2,10 +2,54 @@
 #include <math.h>
 #include <cstring>
 #include <cstdlib>
+#include <vector>
 #include "exception.h"
+#include "fileIO.h"
 #include "rsa.h"
 
+#define MAX_ASCII_VAL 93
+#define MIN_ASCII_VAL 33
+
 using namespace std;
+
+void encryptRSA(string inputFile, string outputFile)
+{
+	if(inputFile == outputFile)
+		throw Exception("Input and Output files cannot be the same!");
+
+	string originalMessage = getMessageFromFile(inputFile);
+	string newMessage = "";
+	Key key;
+	string keyFile = writeKey(key);
+
+	for(int i = 0; i < originalMessage.length(); i++)
+	{
+		int ascii = (int) originalMessage.at(i);
+		int encryptVal = modValue(ascii, key.getPublicExp(), key.getPublicBase());
+		newMessage.append(to_string(encryptVal));
+		newMessage.append(" ");
+	}
+	writeMessageToFile(newMessage, outputFile);
+}
+
+void decryptRSA(string inputFile, string outputFile, string keyFile)
+{
+
+}
+
+int getASCIImoddedValue(int asciiVal)
+{
+	return (asciiVal % MAX_ASCII_VAL) + MIN_ASCII_VAL;
+}
+
+int getRandomNumber(int min, int max)
+{
+	if(min == max)
+		throw Exception("Min and Max values cannot be the same!");
+	else if(min == 0 || max == 0)
+		throw Exception("Min and/or Max values cannot be 0!");
+	else return min + (rand() % (max - min + 1));
+}
 
 // Program to implement Sieve of Eratosthenes
 int getPrimeNum(int numOfDigits)
@@ -18,8 +62,7 @@ int getPrimeNum(int numOfDigits)
 	int primeNum = 0, primeCount = 0, range = int(pow(10.0, double(numOfDigits))) + 1;
 	int arr[range];
 	memset(arr, 0, range * sizeof(int));
-	int primeArr[range];
-	memset(primeArr, 0, range * sizeof(int));
+	vector<int> primeVtr;
 
 	for (int i = 2; i < range; i++)
 	{
@@ -31,7 +74,7 @@ int getPrimeNum(int numOfDigits)
 	for (int i = 1; i < range; i++)
 	{
 		if (arr[i - 1] == 0) {
-			primeArr[primeCount] = i;
+			primeVtr.push_back(i);
 			primeCount++;
 		}
 	}
@@ -39,7 +82,7 @@ int getPrimeNum(int numOfDigits)
 	{
 		// get random index from 1 - number of primes in range
 		int randIndex = rand() % (primeCount - 1);
-		primeNum = primeArr[randIndex];
+		primeNum = primeVtr.at(randIndex);
 	}while (primeNum < range/10 || primeNum > range);
 	// keep getting a new number until primeNum is the correct number of digits
 	return primeNum;
@@ -72,6 +115,29 @@ bool checkRelativelyPrime(int num1, int num2)
 {
 	if(gcd(num1, num2) == 1) return true;
 	else return false;
+}
+
+int modValue(int base, int exp, int mod)
+{
+	if(base < 0 || exp < 0 || mod < 0)
+		throw Exception("Cannot calculate mod value with a negative value!");
+
+	int res = 1;
+
+	base = base % mod;  // Update base if it is more than or
+	// equal to mod value (in mod math)
+
+	while (exp > 0)
+	{
+		// If exp is odd, multiply base with result
+		if (exp & 1)
+			res = (res * base) % mod;
+
+		// exp must be even now
+		exp /= 2;
+		base = (base * base) % mod;
+	}
+	return res;
 }
 
 int modularInverse(int num, int mod)

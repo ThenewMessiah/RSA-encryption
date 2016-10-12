@@ -11,7 +11,7 @@
 #define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
 
-BOOST_AUTO_TEST_SUITE(RSA)
+BOOST_AUTO_TEST_SUITE(RSA_Test_Suite)
 
 BOOST_AUTO_TEST_CASE(Exceptions)
 {
@@ -22,12 +22,32 @@ BOOST_AUTO_TEST_CASE(Exceptions)
 
 BOOST_AUTO_TEST_CASE(ModularMath)
 {
+  int testNum;
+  BOOST_TEST_MESSAGE("Initial test number value:" << testNum);
+
+  BOOST_CHECK_THROW(getRandomNumber(0, 10), Exception);
+  BOOST_CHECK_THROW(getRandomNumber(10, 0), Exception);
+  BOOST_CHECK_THROW(getRandomNumber(50, 50), Exception);
+  BOOST_CHECK_THROW(getRandomNumber(0, 0), Exception);
+  BOOST_CHECK_NO_THROW(getRandomNumber(20, 30));
+  BOOST_CHECK_NO_THROW(getRandomNumber(30, 20));
+
+  testNum = getRandomNumber(1, 10);
+  BOOST_CHECK_EQUAL(testNum >= 1 && testNum <= 10, true);
+  testNum = getRandomNumber(1, 3);
+  BOOST_CHECK_EQUAL(testNum >= 1 && testNum <= 3, true);
+  testNum = getRandomNumber(1, 2);
+  BOOST_CHECK_EQUAL(testNum >= 1 && testNum <= 2, true);
+  testNum = getRandomNumber(450, 500);
+  BOOST_CHECK_EQUAL(testNum >= 450 && testNum <= 500, true);
+  testNum = getRandomNumber(10, 800);
+  BOOST_CHECK_EQUAL(testNum >= 10 && testNum <= 800, true);
+
   BOOST_CHECK_THROW(getPrimeNum(0), Exception);
   BOOST_CHECK_THROW(getPrimeNum(5), Exception);
   BOOST_CHECK_NO_THROW(getPrimeNum(1));
   BOOST_CHECK_NO_THROW(getPrimeNum(4));
 
-  int testNum;
   testNum = getPrimeNum(1);
   BOOST_CHECK_EQUAL(testNum > 1 && testNum < 10, true);
   testNum = getPrimeNum(2);
@@ -49,10 +69,26 @@ BOOST_AUTO_TEST_CASE(ModularMath)
   BOOST_CHECK_EQUAL(checkRelativelyPrime(8, 4), false);
   BOOST_CHECK_EQUAL(checkRelativelyPrime(getPrimeNum(2), getPrimeNum(3)), true);
 
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(0), 33);
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(93), 33);
+  BOOST_CHECK_EQUAL(getASCIImoddedValue(8127), 69);
+
+  Key key(2869, 5353, 101, 53, 29);
+
+  BOOST_CHECK_EQUAL(modValue(5, 1, 4), 1);
+  BOOST_CHECK_EQUAL(modValue(8, 1, 8), 0);
+  BOOST_CHECK_EQUAL(modValue(7, 0, 100), 1);
+  BOOST_CHECK_EQUAL(modValue(65, 29, 5353), 4155);
+  BOOST_CHECK_EQUAL(modValue(1200, 50, 95), 80);
+  BOOST_CHECK_EQUAL(modValue(1907, key.getPublicExp(), key.getPublicBase()), 4451);
+  BOOST_CHECK_THROW(modValue(-10, 50, 95), Exception);
+  BOOST_CHECK_THROW(modValue(10, -50, 95), Exception);
+  BOOST_CHECK_THROW(modValue(10, 50, -95), Exception);
+
   BOOST_CHECK_EQUAL(modularInverse(42, 2017), 1969);
   BOOST_CHECK_EQUAL(modularInverse(29, 5200), 2869);
   BOOST_CHECK_THROW(modularInverse(4, 8), Exception);
-  
+
 }
 
 BOOST_AUTO_TEST_CASE(RSA_Key)
